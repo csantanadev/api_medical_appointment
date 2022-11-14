@@ -1,0 +1,5 @@
+-- gerando a tabela de fato no banco de dados
+npx prisma migrate dev 
+
+-- gerando as interfaces nas pastas do prisma
+npx prisma generate
