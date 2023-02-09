@@ -25,11 +25,7 @@ export class UserPrismaRepository implements IUserRepository {
     async save(data: User): Promise<User> {
 
         const user = await prismaClient.user.create({
-            data: {
-                name: data.name,
-                password: data.password,
-                username: data.username
-            }
+            data
         });
         return user;
     }
