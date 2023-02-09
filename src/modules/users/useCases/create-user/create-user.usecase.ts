@@ -16,7 +16,7 @@ export class CreateUserUseCase {
 
     async execute(data: UserRequest) {
 
-        const user = User.create(data)
+        const user = User.create(data);
 
         const userExists = await this.userRepository.findByUserName(data.username);
 
