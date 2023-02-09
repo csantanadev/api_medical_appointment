@@ -20,6 +20,7 @@ export class CreateUserUseCase {
 
         const userExists = await this.userRepository.findByUserName(data.username);
 
+        
         if (userExists) {
             throw new CustomError('Username already exists.', StatusCodes.BAD_REQUEST, 'USER_EXISTS');
         }
