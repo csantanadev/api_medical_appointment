@@ -6,6 +6,7 @@ import { userRoutes } from './routes/user.routes';
 import swaggerUI from 'swagger-ui-express';
 
 import swaggerDocument from '../swagger.json';
+import { DoctorRoutes } from "./routes/doctor.routes";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 app.use(userRoutes)
 app.use(specialityRoutes)
+app.use(DoctorRoutes)
 
 app.get('/', (request: Request, response: Response) => {
 

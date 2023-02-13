@@ -10,7 +10,7 @@ export class JWTToken implements IToken {
 
     create({ id, username, isAdmin }: User): string {
 
-        const token = sign({ user: { id, username, isAdmin } }, this.TOKEN_SECRET_CRYPTO, { subject: id, expiresIn: '1m' });
+        const token = sign({ user: { id, username, isAdmin } }, this.TOKEN_SECRET_CRYPTO, { subject: id, expiresIn: '1d' });
 
         return token;
     }

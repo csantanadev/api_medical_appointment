@@ -37,7 +37,7 @@ export class CreateDoctorUseCase {
             throw new  CustomError('Username already exists.', StatusCodes.BAD_REQUEST, 'USER_EXISTS');
         }
 
-        const user = User.create({name: data.name, password: data.password, username: data.username});
+        const user = await User.create({name: data.name, password: data.password, username: data.username});
 
         const userCreated = await this.userRepository.save(user);
 
