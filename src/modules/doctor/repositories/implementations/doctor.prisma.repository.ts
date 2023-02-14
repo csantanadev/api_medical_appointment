@@ -4,7 +4,7 @@ import { Doctor } from "../../entities/doctor.entity";
 import { IDoctorRepository } from "../doctor.repository";
 
 export class DoctorPrismaRepository implements IDoctorRepository {
-
+    
 
     async save(data: Doctor): Promise<Doctor> {
         const doctor = await prismaClient.doctor.create({
@@ -24,6 +24,31 @@ export class DoctorPrismaRepository implements IDoctorRepository {
         const doctor = await prismaClient.doctor.findUnique({
             where: {
                 crm
+            }
+        });
+
+        if(doctor) return DoctorMapper.PrismaToEntityDoctor(doctor);
+
+        return null;
+    }
+
+    async findById(id: string): Promise<Doctor | null> {
+
+        const doctor = await prismaClient.doctor.findUnique({
+            where: { id }
+        });
+
+        if(doctor) return DoctorMapper.PrismaToEntityDoctor(doctor);
+
+        return null;
+    }
+
+
+    async findByUserId(userId: string): Promise<Doctor | null> {
+
+        const doctor = await prismaClient.doctor.findUnique({
+            where: {
+                user_id : userId
             }
         });
 
