@@ -1,7 +1,7 @@
-import { DoctorMapper } from './../../mapper/doctor.mapper';
-import { prismaClient } from "../../../../infra/databases/prisma.config";
-import { Doctor } from "../../entities/doctor.entity";
-import { IDoctorRepository } from "../doctor.repository";
+import { DoctorMapper } from '../../../mapper/doctor.mapper';
+import { prismaClient } from "../../../../../infra/databases/prisma.config";
+import { Doctor } from "../../../entities/doctor.entity";
+import { IDoctorRepository } from "../../doctor.repository";
 
 export class DoctorPrismaRepository implements IDoctorRepository {
     

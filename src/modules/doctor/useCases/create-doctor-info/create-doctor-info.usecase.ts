@@ -1,3 +1,4 @@
+import { IDoctorInfoRepository } from './../../repositories/doctor-info.repository';
 import { DoctorInfo } from './../../entities/doctor-info.entity';
 import { StatusCodes } from "http-status-codes"
 import { CustomError } from "../../../../errors/custom.error"
@@ -12,7 +13,8 @@ export type DoctorInfoRequest = {
 
 export class CreateDoctorInfoUseCase {
 
-    constructor(private doctorRepository: IDoctorRepository) { }
+    constructor(private doctorRepository: IDoctorRepository,
+        private doctorInfoRepository: IDoctorInfoRepository) { }
 
     async execute(data: DoctorInfoRequest, userId: string) {
 
@@ -24,7 +26,9 @@ export class CreateDoctorInfoUseCase {
 
         const doctorInfo = DoctorInfo.create({ ...data, doctorId: doctorByUserId.id });
 
-        return doctorInfo;
+        const doctorInfoCreated = await this.doctorInfoRepository.save(doctorInfo);
+
+        return doctorInfoCreated;
     }
 
 
