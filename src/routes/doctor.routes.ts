@@ -4,11 +4,11 @@ import { ensureAuthenticate } from "../infra/shared/http/middleware/ensure-authe
 import { createDoctorController } from "../modules/doctor/useCases/create-doctor"; 
 
 
-const DoctorRoutes = Router();
+const doctorRoutes = Router();
 
-DoctorRoutes.post('/doctor', 
+doctorRoutes.post('/doctor', 
     ensureAuthenticate, 
     ensureAadmin,
     createDoctorController. handle);
 
-export { DoctorRoutes }
+export { doctorRoutes }
