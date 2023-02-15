@@ -5,8 +5,24 @@ export class DoctorInfoMemoryRespository implements IDoctorInfoRepository {
     
     items: DoctorInfo[] = [];
 
-    async save(data: DoctorInfo): Promise<DoctorInfo> {
-        this.items.push(data);
+    async saveOrUpdate(data: DoctorInfo): Promise<DoctorInfo> {
+
+        const index = this.items.findIndex(d => d.doctorId === data.doctorId);
+
+        if(index >= 0) {
+            const doctor = this.items[index];
+            this.items[index] = {
+                ...doctor, 
+                duration: data.duration,
+                price: data.price,
+                startAt: data.startAt,
+                endAt: data.endAt
+            }
+            data = this.items[index];
+        }
+        else {
+            this.items.push(data);
+        }
         return data;
     }
 

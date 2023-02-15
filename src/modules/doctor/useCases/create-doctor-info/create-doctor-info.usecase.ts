@@ -26,7 +26,7 @@ export class CreateDoctorInfoUseCase {
 
         const doctorInfo = DoctorInfo.create({ ...data, doctorId: doctorByUserId.id });
 
-        const doctorInfoCreated = await this.doctorInfoRepository.save(doctorInfo);
+        const doctorInfoCreated = await this.doctorInfoRepository.saveOrUpdate(doctorInfo);
 
         return doctorInfoCreated;
     }

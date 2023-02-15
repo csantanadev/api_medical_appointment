@@ -140,7 +140,37 @@ describe("Create Doctor Info", () => {
 
     });
 
+    test('Should be able to update a exist doctor info', async () => {
 
+        const doctorMemoryRepository = new DoctorMemoryRespository();
+        const doctorInfoMemoryRepository = new DoctorInfoMemoryRespository();
+        const createDoctorInfoUseCase = new CreateDoctorInfoUseCase(doctorMemoryRepository, doctorInfoMemoryRepository);
+
+        const userId = randomUUID();
+
+        await doctorMemoryRepository.save({
+            crm: '123456',
+            email: 'doctor@test.com.br',
+            id: randomUUID(),
+            specialityId: randomUUID(),
+            userId
+        });
+
+        const doctorInfo: DoctorInfoRequest = {
+            startAt: dayjs().startOf('day').add(10, 'hour').format('HH:mm'),
+            endAt: dayjs().startOf('day').add(18, 'hour').format('HH:mm'),
+            price: 150,
+            duration: 10
+        }
+
+        // tentando salvar duas vezes
+        const doctorInfoCreated   = await createDoctorInfoUseCase.execute(doctorInfo, userId);
+        const doctorInfoUpdated = await createDoctorInfoUseCase.execute(doctorInfo, userId);
+
+        expect(doctorInfoCreated).toHaveProperty('id');
+        // testando se o id não mudou 
+        expect(doctorInfoCreated.id).toBe(doctorInfoUpdated.id);
+    });
 
 
 });
