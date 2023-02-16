@@ -25,25 +25,17 @@ export class CreateDoctorUseCase {
 
     async execute(data: CreateDoctorRequest) {
 
-        const speciality = await this.specialityRepository.findById(data.specialityId);
-
-        if(!speciality) {
-            throw new  CustomError('Speciality does not exists.', StatusCodes.BAD_REQUEST);
-        }
-
         const existsUser = await this.userRepository.findByUserName(data.username);
 
         if(existsUser) {
             throw new  CustomError('Username already exists.', StatusCodes.BAD_REQUEST, 'USER_EXISTS');
         }
 
-        const user = await User.create({name: data.name, password: data.password, username: data.username});
+        const speciality = await this.specialityRepository.findById(data.specialityId);
 
-        const userCreated = await this.userRepository.save(user);
-
-        const doctor = Doctor.create({crm: data.crm, email: data.email, specialityId: data.specialityId, 
-            userId : userCreated.id
-        });
+        if(!speciality) {
+            throw new  CustomError('Speciality does not exists.', StatusCodes.BAD_REQUEST);
+        }
 
         const crmExists = await this.doctorRepository.findByCRM(data.crm);
 
@@ -51,10 +43,21 @@ export class CreateDoctorUseCase {
             throw new CustomError('CRM already exists.', StatusCodes.BAD_REQUEST);   
         }
 
+        // cria o objeto
+        const user = await User.create({name: data.name, password: data.password, username: data.username});
+
+        // salva user no bd
+        const userCreated = await this.userRepository.save(user);
+
+        // cria o objeto
+        const doctor = Doctor.create({crm: data.crm, email: data.email, specialityId: data.specialityId, 
+            userId : userCreated.id
+        });
+
+        // salva o doctor no bd        
         const doctorCreated = await this.doctorRepository.save(doctor);
 
         return doctorCreated;
-
     }
 
 

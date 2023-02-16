@@ -15,15 +15,15 @@ model User {
   isAdmin  Boolean  @default(false)
   createAt DateTime @default(now())
 
-  doctor Doctor?
+  doctor  Doctor?
+  patient Patient?
 
   @@map("users")
 }
 
-
 model Speciality {
-  id String @id @default(uuid())
-  name String @unique
+  id          String @id @default(uuid())
+  name        String @unique
   description String
 
   createdAt DateTime @default(now())
@@ -31,38 +31,48 @@ model Speciality {
   doctor Doctor[]
 
   @@map("specialities")
-
 }
 
 model Doctor {
-
-  id String @id @default(uuid())
+  id    String @id @default(uuid())
   email String @unique
-  crm String @unique
+  crm   String @unique
 
-  user User @relation(fields: [user_id], references: [id])
-  user_id String @unique 
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
-  speciality Speciality @relation(fields: [speciality_id], references: [id])
+  speciality    Speciality @relation(fields: [speciality_id], references: [id])
   speciality_id String
-  
+
   doctorInfo DoctorInfo?
-  
+
   createdAt DateTime @default(now())
 
   @@map("doctors")
 }
 
 model DoctorInfo {
-
-  id String @id @default(uuid())
-  start_at String
-  end_at String
-  duration Int
-  price Decimal
-  doctor_id String @unique
+  id        String  @id @default(uuid())
+  start_at  String
+  end_at    String
+  duration  Int
+  price     Decimal
+  doctor_id String  @unique
 
   doctor Doctor @relation(fields: [doctor_id], references: [id])
-  
+
   @@map("doctor_info")
+}
+
+model Patient {
+  id       String @id @default(uuid())
+  email    String @unique
+  document String @unique
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
+  createdAt DateTime @default(now())
+
+  @@map("patients")
 }
