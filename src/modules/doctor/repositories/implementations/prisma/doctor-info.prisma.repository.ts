@@ -12,15 +12,11 @@ export class DoctorInfoPrismaRepository implements IDoctorInfoRepository {
                 doctor_id: data.doctorId
             },
             create: {
-                start_at: data.startAt,
-                end_at: data.endAt,
                 duration: data.duration,
                 price: data.price,
                 doctor_id: data.doctorId
             },
             update: {
-                start_at: data.startAt,
-                end_at: data.endAt,
                 duration: data.duration,
                 price: data.price
             }
