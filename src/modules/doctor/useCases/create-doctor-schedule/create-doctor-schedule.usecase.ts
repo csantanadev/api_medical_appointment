@@ -32,9 +32,7 @@ export class CreateDoctorScheduleUseCase {
             schedules: data.schedules 
         });
 
-        const doctorScheduleCreated = await this.doctorScheduleRepository.save(doctorSchedule);
-
-        return doctorScheduleCreated;
+        await this.doctorScheduleRepository.save(doctorSchedule);
     }
 
 

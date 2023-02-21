@@ -16,34 +16,9 @@ export class CreateDoctorScheduleController {
         try {
             const { body, userId } = request;
 
-            console.log('body', body)
-            console.log('userId', userId)
+            await this.createDoctorScheduleUseCase.execute(body, userId);
 
-
-         /*   const doctorSchema = z.object({
-                username: z.string(),
-                name: z.string(),
-                email: z.string().email({
-                    message: 'You need to insert a valid email'
-                }),
-                password: z.string(),
-                crm: z.string().length(6, {
-                    message: 'CRM must contain 6 characteres'
-                }),
-                specialityId: z.string().uuid({
-                    message: 'You need to insert a valid specialityId'
-                })
-            });
-
-            // validação de schema
-            validatorSchema(doctorSchema, body); */
-
-            const schedules = {
-                schedules : body
-            }
-            const doctorSchedule = await this.createDoctorScheduleUseCase.execute(schedules, userId);
-
-            return response.status(StatusCodes.CREATED).json(doctorSchedule);
+            return response.status(StatusCodes.CREATED).end();
         }
         catch (error: any) {
             if (error instanceof ValidationSchemaError) {
