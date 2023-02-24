@@ -46,6 +46,7 @@ model Doctor {
 
   doctorInfo DoctorInfo?
   doctorSchedule DoctorSchedules[]
+  appointment Appointment[]
 
   createdAt DateTime @default(now())
 
@@ -73,6 +74,8 @@ model Patient {
 
   createdAt DateTime @default(now())
 
+  appointment Appointment[]
+
   @@map("patients")
 }
 
@@ -87,4 +90,22 @@ model DoctorSchedules {
   doctor Doctor @relation(fields: [doctor_id], references: [id])
 
   @@map("doctor_schedules")
+}
+
+model Appointment {
+  id String @id @default(uuid())
+
+  doctor_id String  
+  doctor Doctor @relation(fields: [doctor_id], references: [id])
+
+  patient_id String
+  patient Patient @relation(fields: [patient_id], references: [id])
+
+  is_finished Boolean @default(false)
+  date DateTime
+  note String
+
+
+  @@map("appointments")
+
 }

@@ -14,9 +14,7 @@ export class DoctorInfoMemoryRespository implements IDoctorInfoRepository {
             this.items[index] = {
                 ...doctor, 
                 duration: data.duration,
-                price: data.price,
-                startAt: data.startAt,
-                endAt: data.endAt
+                price: data.price
             }
             data = this.items[index];
         }
