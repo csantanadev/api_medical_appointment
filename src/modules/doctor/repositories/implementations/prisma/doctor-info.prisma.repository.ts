@@ -4,7 +4,6 @@ import { IDoctorInfoRepository } from '../../doctor-info.repository';
 import { DoctorInfoMapper } from '../../../mapper/doctor-info.mapper';
 
 export class DoctorInfoPrismaRepository implements IDoctorInfoRepository {
-
     async saveOrUpdate(data: DoctorInfo): Promise<DoctorInfo> {
 
         const doctorInfo = await prismaClient.doctorInfo.upsert({
@@ -23,6 +22,17 @@ export class DoctorInfoPrismaRepository implements IDoctorInfoRepository {
         });
         
         return DoctorInfoMapper.PrismaToEntityDoctorInfo(doctorInfo);
+    }
+
+    async findByDoctorId(doctorId: string): Promise<DoctorInfo | null> {
+        
+        const doctorInfo = await prismaClient.doctorInfo.findFirst({
+            where: {
+                doctor_id : doctorId
+            }
+        });
+
+        return doctorInfo ? DoctorInfoMapper.PrismaToEntityDoctorInfo(doctorInfo) : null;
     }
 
 }

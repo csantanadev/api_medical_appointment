@@ -4,6 +4,7 @@ import { formatDate, getDayOfWeek } from "../../../../utils/date";
 import { IAppointmentRepository } from "../../repositories/appointment.repository";
 import { IDoctorScheduleRepository } from './../../../doctor/repositories/doctor-schedule.repository';
 import dayjs from 'dayjs'
+import { IDoctorInfoRepository } from "../../../doctor/repositories/doctor-info.repository";
 
 type FreeScheduleRequest = {
     doctorId: string;
@@ -22,7 +23,8 @@ type FreeScheduleResponse = {
 export class FreeScheduleUseCase {
 
     constructor(private doctorScheduleRepository: IDoctorScheduleRepository,
-        private appointmentRepository: IAppointmentRepository) { }
+        private appointmentRepository: IAppointmentRepository, 
+        private doctorInfoRepository: IDoctorInfoRepository) { }
 
     async execute(data: FreeScheduleRequest): Promise<FreeScheduleResponse> {
 
@@ -36,17 +38,26 @@ export class FreeScheduleUseCase {
 
         const dayOfWeek = getDayOfWeek(data.date);
 
-        const doctorSchedule = await this.doctorScheduleRepository.findByDoctorIdAndDayOfWeek(data.doctorId, dayOfWeek);
+        // promise all
+        const promiseDoctorSchedule = this.doctorScheduleRepository.findByDoctorIdAndDayOfWeek(data.doctorId, dayOfWeek);
+        const promiseDoctorInfo = this.doctorInfoRepository.findByDoctorId(data.doctorId);
 
+        const promises = await Promise.all([promiseDoctorSchedule, promiseDoctorInfo]);
+
+        const [doctorSchedule, doctorInfo] = promises;
+        
         if (!doctorSchedule) {
             throw new CustomError('Doctor does not attend that day.', StatusCodes.BAD_REQUEST);
+        }
+        if (!doctorInfo) {
+            throw new CustomError('Doctor info does not exists.', StatusCodes.BAD_REQUEST);
         }
 
         const appointmentsByDoctorAndDate = await this.appointmentRepository.findAllSchedulesByDoctorAndDate(data.doctorId, data.date);
 
         const startAt = doctorSchedule.startAt; // 09:00
         const endAt = doctorSchedule.endAt;     // 18:00
-        const duration = 30; // 30 min
+        const duration = doctorInfo.duration;
 
         let timeNow = startAt;
 
