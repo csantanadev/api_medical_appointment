@@ -4,23 +4,19 @@ import { logger } from "../../../../utils/logger";
 import { CreateUserUseCase } from "./create-user.usecase";
 
 export class CreateUserController {
+  constructor(private readonly createUserUseCase: CreateUserUseCase) {}
 
-    constructor(private readonly createUserUseCase: CreateUserUseCase) { }
+  handle = async (request: Request, response: Response) => {
+    logger.info("Usuário sendo criado");
 
-    handle = async (request: Request, response: Response) => {
+    try {
+      const data = request.body;
 
-        logger.info("Usuário sendo criado");
+      const user = await this.createUserUseCase.execute(data);
 
-        try {
-            const data = request.body;
-
-            const user = await this.createUserUseCase.execute(data);
-
-            return response.status(StatusCodes.CREATED).json(user);
-        }
-        catch (err: any) {
-            return response.status(err.statusCode).json({ error: err.message })
-        }
+      return response.status(StatusCodes.CREATED).json(user);
+    } catch (err: any) {
+      return response.status(err.statusCode).json({ error: err.message });
     }
-
+  };
 }

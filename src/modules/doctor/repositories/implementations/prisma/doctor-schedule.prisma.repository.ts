@@ -28,6 +28,13 @@ export class DoctorSchedulePrismaRepository implements IDoctorScheduleRepository
                 AND: {
                     doctor_id: doctorId
                 }
+            },
+            include: {
+                doctor: {
+                    include: {
+                        doctorInfo: true
+                    }
+                }
             }
         });
 

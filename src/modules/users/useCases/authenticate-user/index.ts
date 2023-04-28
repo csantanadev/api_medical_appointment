@@ -4,14 +4,18 @@ import { UserPrismaRepository } from "../../repositories/implementations/user.pr
 import { AuthenticateUserController } from "./authenticate-user.controller";
 import { AuthenticateUserUseCase } from "./authenticate-user.usecase";
 
-
 const userPrismaRepository = new UserPrismaRepository();
 const passwordBcrypt = new PasswordBcrypt();
 const jwtToken = new JWTToken();
 
+const authenticateUserUseCase = new AuthenticateUserUseCase(
+  userPrismaRepository,
+  passwordBcrypt,
+  jwtToken
+);
 
-const authenticateUserUseCase = new AuthenticateUserUseCase(userPrismaRepository, passwordBcrypt, jwtToken);
+const authenticateUserController = new AuthenticateUserController(
+  authenticateUserUseCase
+);
 
-const authenticateUserController = new AuthenticateUserController(authenticateUserUseCase);
-
-export { authenticateUserController }
+export { authenticateUserController };

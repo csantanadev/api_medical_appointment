@@ -3,6 +3,6 @@ import { createPatientController } from "../modules/patient/useCases/create-pati
 
 const patientRoutes = Router();
 
-patientRoutes.post('/patient', createPatientController.handle);
+patientRoutes.post("/patient", createPatientController.handle);
 
-export { patientRoutes }
+export { patientRoutes };

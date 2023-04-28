@@ -5,8 +5,10 @@ import { createDoctorInfoController } from "../modules/doctor/useCases/create-do
 
 const doctorInfoRoutes = Router();
 
-doctorInfoRoutes.post('/doctor-info', 
-    ensureAuthenticate, 
-    createDoctorInfoController.handle);
+doctorInfoRoutes.post(
+  "/doctor-info",
+  ensureAuthenticate,
+  createDoctorInfoController.handle
+);
 
-export { doctorInfoRoutes }
+export { doctorInfoRoutes };

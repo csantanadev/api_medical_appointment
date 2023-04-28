@@ -1,42 +1,37 @@
-import { ValidationSchemaError } from './../../../../errors/validation-schema.error';
-import { validatorSchema } from './../../../../infra/shared/validator/zod';
+import { ValidationSchemaError } from "./../../../../errors/validation-schema.error";
+import { validatorSchema } from "./../../../../infra/shared/validator/zod";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { z } from 'zod';
-import { CreatePatientUseCase } from './create-patient.usecase';
-
+import { z } from "zod";
+import { CreatePatientUseCase } from "./create-patient.usecase";
 
 export class CreatePatientController {
+  constructor(private readonly createPatientUseCase: CreatePatientUseCase) {}
 
-    constructor(private readonly createPatientUseCase: CreatePatientUseCase) { }
+  handle = async (request: Request, response: Response) => {
+    try {
+      const { body } = request;
 
-    handle = async (request: Request, response: Response) => {
+      const patientSchema = z.object({
+        username: z.string(),
+        name: z.string(),
+        email: z.string().email({
+          message: "You need to insert a valid email",
+        }),
+        password: z.string(),
+      });
 
-        try {
-            const { body } = request;
+      // validação de schema
+      validatorSchema(patientSchema, body);
 
-            const patientSchema = z.object({
-                username: z.string(),
-                name: z.string(),
-                email: z.string().email({
-                    message: 'You need to insert a valid email'
-                }),
-                password: z.string()                
-            });
+      const patient = await this.createPatientUseCase.execute(body);
 
-            // validação de schema
-            validatorSchema(patientSchema, body);
-
-            const patient = await this.createPatientUseCase.execute(body);
-
-            return response.status(StatusCodes.CREATED).json(patient);
-        }
-        catch (error: any) {
-            if (error instanceof ValidationSchemaError) {
-                return response.status(error.statusCode).json(error.errors);
-            }
-            return response.status(error.statusCode).json(error.message);
-        }
+      return response.status(StatusCodes.CREATED).json(patient);
+    } catch (error: any) {
+      if (error instanceof ValidationSchemaError) {
+        return response.status(error.statusCode).json(error.errors);
+      }
+      return response.status(error.statusCode).json(error.message);
     }
-
+  };
 }

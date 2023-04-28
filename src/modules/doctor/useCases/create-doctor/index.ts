@@ -8,8 +8,12 @@ const userPrismaRepository = new UserPrismaRepository();
 const doctorPrismaRepository = new DoctorPrismaRepository();
 const specialityPrismaRepository = new SpecialityPrismaRepository();
 
-const createDoctorUseCase = new CreateDoctorUseCase(userPrismaRepository, doctorPrismaRepository, specialityPrismaRepository);
+const createDoctorUseCase = new CreateDoctorUseCase(
+  userPrismaRepository,
+  doctorPrismaRepository,
+  specialityPrismaRepository
+);
 
 const createDoctorController = new CreateDoctorController(createDoctorUseCase);
 
-export { createDoctorController }
+export { createDoctorController };

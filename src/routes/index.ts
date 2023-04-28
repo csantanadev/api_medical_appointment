@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { Router } from "express";
 import { appointmentRoutes } from "./appointment.routes";
 import { doctorInfoRoutes } from "./doctor-info.routes";
 import { doctorScheduleRoutes } from "./doctor-schedule.routes";
@@ -17,4 +17,4 @@ routes.use(patientRoutes);
 routes.use(doctorScheduleRoutes);
 routes.use(appointmentRoutes);
 
-export { routes }
+export { routes };

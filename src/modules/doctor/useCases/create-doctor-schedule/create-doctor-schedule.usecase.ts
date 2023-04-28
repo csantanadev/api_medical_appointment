@@ -5,35 +5,33 @@ import { IDoctorScheduleRepository } from "../../repositories/doctor-schedule.re
 import { IDoctorRepository } from "../../repositories/doctor.repository";
 
 export type CreateDoctorScheduleRequest = {
-    schedules: DoctorSchedulesRequest[]
-}
+  schedules: DoctorSchedulesRequest[];
+};
 
 type DoctorSchedulesRequest = {
-    startAt: string
-    endAt: string
-    dayOfWeek: number
-}
+  startAt: string;
+  endAt: string;
+  dayOfWeek: number;
+};
 
 export class CreateDoctorScheduleUseCase {
+  constructor(
+    private doctorRepository: IDoctorRepository,
+    private doctorScheduleRepository: IDoctorScheduleRepository
+  ) {}
 
-    constructor(private doctorRepository: IDoctorRepository, 
-        private doctorScheduleRepository: IDoctorScheduleRepository) {}
+  async execute(data: CreateDoctorScheduleRequest, userId: string) {
+    const doctorExists = await this.doctorRepository.findByUserId(userId);
 
-    async execute(data: CreateDoctorScheduleRequest, userId: string) {
-
-        const doctorExists = await this.doctorRepository.findByUserId(userId);
-
-        if(!doctorExists) {
-            throw new  CustomError('Doctor does not exists.', StatusCodes.BAD_REQUEST);
-        }
-
-        const doctorSchedule = DoctorSchedule.create({
-            doctorId: doctorExists.id,
-            schedules: data.schedules 
-        });
-
-        await this.doctorScheduleRepository.save(doctorSchedule);
+    if (!doctorExists) {
+      throw new CustomError("Doctor does not exists.", StatusCodes.BAD_REQUEST);
     }
 
+    const doctorSchedule = DoctorSchedule.create({
+      doctorId: doctorExists.id,
+      schedules: data.schedules,
+    });
 
+    await this.doctorScheduleRepository.save(doctorSchedule);
+  }
 }

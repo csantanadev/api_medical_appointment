@@ -1,24 +1,22 @@
-import { ZodError, ZodSchema } from 'zod';
-import { ValidationSchemaError } from '../../../errors/validation-schema.error';
+import { ZodError, ZodSchema } from "zod";
+import { ValidationSchemaError } from "../../../errors/validation-schema.error";
 
 export type ErrorSchema = {
-    field: (string | number)[]
-    message: string
-}
+  field: (string | number)[];
+  message: string;
+};
 
 export const validatorSchema = (shema: ZodSchema, payload: any) => {
-    try {
-        shema.parse(payload);
+  try {
+    shema.parse(payload);
+  } catch (erro: any) {
+    const typedError = erro as ZodError;
+    const errors: ErrorSchema[] = [];
 
-    } catch (erro: any) {
-        const typedError = erro as ZodError;
-        const errors: ErrorSchema[] = [];
+    typedError.errors.forEach((e) => {
+      errors.push({ field: e.path, message: e.message });
+    });
 
-        typedError.errors.forEach(e => {
-            errors.push({ field: e.path, message: e.message });
-        });
-
-        throw new ValidationSchemaError('ERROR_SCHEMA', errors);
-    }
-
-}
+    throw new ValidationSchemaError("ERROR_SCHEMA", errors);
+  }
+};

@@ -4,8 +4,10 @@ import { createDoctorScheduleController } from "../modules/doctor/useCases/creat
 
 const doctorScheduleRoutes = Router();
 
-doctorScheduleRoutes.post('/doctor-schedule',
-    ensureAuthenticate,
-    createDoctorScheduleController.handle);
+doctorScheduleRoutes.post(
+  "/doctor-schedule",
+  ensureAuthenticate,
+  createDoctorScheduleController.handle
+);
 
-export { doctorScheduleRoutes }
+export { doctorScheduleRoutes };

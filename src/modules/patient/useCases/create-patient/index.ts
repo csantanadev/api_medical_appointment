@@ -3,12 +3,16 @@ import { PatientPrismaRepository } from "../../repositories/implementations/pris
 import { CreatePatientController } from "./create-patient.controller";
 import { CreatePatientUseCase } from "./create-patient.usecase";
 
-
 const userPrismaRepository = new UserPrismaRepository();
 const patientPrismaRepository = new PatientPrismaRepository();
 
-const createPatientUseCase = new CreatePatientUseCase(userPrismaRepository, patientPrismaRepository);
+const createPatientUseCase = new CreatePatientUseCase(
+  userPrismaRepository,
+  patientPrismaRepository
+);
 
-const createPatientController = new CreatePatientController(createPatientUseCase);
+const createPatientController = new CreatePatientController(
+  createPatientUseCase
+);
 
-export { createPatientController }
+export { createPatientController };
