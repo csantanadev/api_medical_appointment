@@ -4,7 +4,6 @@ import { formatDate, getDayOfWeek } from "../../../../utils/date";
 import { IAppointmentRepository } from "../../repositories/appointment.repository";
 import { IDoctorScheduleRepository } from "./../../../doctor/repositories/doctor-schedule.repository";
 import dayjs from "dayjs";
-import { IDoctorInfoRepository } from "../../../doctor/repositories/doctor-info.repository";
 
 type FreeScheduleRequest = {
   doctorId: string;

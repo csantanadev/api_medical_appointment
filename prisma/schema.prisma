@@ -103,7 +103,7 @@ model Appointment {
 
   is_finished Boolean @default(false)
   date DateTime
-  note String
+  note String?
 
 
   @@map("appointments")
