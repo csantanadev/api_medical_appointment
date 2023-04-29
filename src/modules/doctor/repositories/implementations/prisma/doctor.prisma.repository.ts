@@ -2,6 +2,7 @@ import { DoctorMapper } from "../../../mapper/doctor.mapper";
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
 import { Doctor } from "../../../entities/doctor.entity";
 import { IDoctorRepository } from "../../doctor.repository";
+import { DoctorWithUserDTO } from "../../../dto/doctor.dto";
 
 export class DoctorPrismaRepository implements IDoctorRepository {
   async save(data: Doctor): Promise<Doctor> {
@@ -29,12 +30,15 @@ export class DoctorPrismaRepository implements IDoctorRepository {
     return null;
   }
 
-  async findById(id: string): Promise<Doctor | null> {
+  async findById(id: string): Promise<DoctorWithUserDTO | null> {
     const doctor = await prismaClient.doctor.findUnique({
       where: { id },
+      include: {
+        user : true
+      }
     });
 
-    if (doctor) return DoctorMapper.PrismaToEntityDoctor(doctor);
+    if (doctor) return DoctorMapper.PrismaToEntityDoctorWithUser(doctor);
 
     return null;
   }

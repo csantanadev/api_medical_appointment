@@ -4,18 +4,20 @@ import { PatientPrismaRepository } from "../../../patient/repositories/implement
 import { AppointmentPrismaRepository } from "../../repositories/implementations/prisma/appointment.prisma.repository";
 import { CreateAppointmentController } from "./create-appointment.controller";
 import { CreateAppointmentUseCase } from "./create-appointment.usecase";
+import { EtherealMailProvider } from "../../../../infra/providers/mail/implementations/ethereal.mail.provider";
 
 const patientPrismaRepository = new PatientPrismaRepository();
 const doctorPrismaRepository = new DoctorPrismaRepository();
 const doctorSchedulePrismaRepository = new DoctorSchedulePrismaRepository();
 const appointmentPrismaRepository = new AppointmentPrismaRepository();
+const mailEtherealProvider = new EtherealMailProvider();
 
 const createAppointmentUseCase = new CreateAppointmentUseCase(
   patientPrismaRepository,
   doctorPrismaRepository,
   doctorSchedulePrismaRepository,
-
-  appointmentPrismaRepository
+  appointmentPrismaRepository,
+  mailEtherealProvider
 );
 
 const createAppointmentController = new CreateAppointmentController(
