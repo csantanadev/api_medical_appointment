@@ -5,6 +5,8 @@ import swaggerUI from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
 import { routes } from "./routes";
 
+import './infra/cron/notification-appointment-day.cron'
+
 const app = express();
 
 app.use(express.json());

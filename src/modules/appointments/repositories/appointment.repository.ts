@@ -4,6 +4,13 @@ export type AppointmentsDate = {
   date: Date;
 };
 
+export type AppointmentsWithPatient = {
+  date: Date;
+  patient: {
+    email: string;
+  };
+};
+
 export interface IAppointmentRepository {
   findAllSchedulesByDoctorAndDate(
     doctorId: string,
@@ -20,4 +27,6 @@ export interface IAppointmentRepository {
     date: string
   ): Promise<AppointmentsDate | null>;
   save(data: Appointment): Promise<void>;
+
+  findAllTodayIncludePatients(): Promise<AppointmentsWithPatient[]>;
 }
