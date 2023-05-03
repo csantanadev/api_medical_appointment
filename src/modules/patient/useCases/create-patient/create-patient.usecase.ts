@@ -11,6 +11,7 @@ export type CreatePatientRequest = {
   email: string;
   name: string;
   document: string;
+  avatar?: string;
 };
 
 export class CreatePatientUseCase {
@@ -25,6 +26,7 @@ export class CreatePatientUseCase {
       name: data.name,
       password: data.password,
       username: data.username,
+      avatar: data.avatar,
     });
 
     const existsUser = await this.userRepository.findByUserName(data.username);

@@ -17,6 +17,7 @@ model User {
 
   doctor  Doctor?
   patient Patient?
+  avatar  String?
 
   @@map("users")
 }
@@ -44,9 +45,9 @@ model Doctor {
   speciality    Speciality @relation(fields: [speciality_id], references: [id])
   speciality_id String
 
-  doctorInfo DoctorInfo?
+  doctorInfo     DoctorInfo?
   doctorSchedule DoctorSchedules[]
-  appointment Appointment[]
+  appointment    Appointment[]
 
   createdAt DateTime @default(now())
 
@@ -79,13 +80,12 @@ model Patient {
   @@map("patients")
 }
 
-
 model DoctorSchedules {
-  id        String  @id @default(uuid())
-  start_at  String
-  end_at    String
+  id          String @id @default(uuid())
+  start_at    String
+  end_at      String
   day_of_week Int
-  doctor_id String  
+  doctor_id   String
 
   doctor Doctor @relation(fields: [doctor_id], references: [id])
 
@@ -95,17 +95,15 @@ model DoctorSchedules {
 model Appointment {
   id String @id @default(uuid())
 
-  doctor_id String  
-  doctor Doctor @relation(fields: [doctor_id], references: [id])
+  doctor_id String
+  doctor    Doctor @relation(fields: [doctor_id], references: [id])
 
   patient_id String
-  patient Patient @relation(fields: [patient_id], references: [id])
+  patient    Patient @relation(fields: [patient_id], references: [id])
 
-  is_finished Boolean @default(false)
-  date DateTime
-  note String?
-
+  is_finished Boolean  @default(false)
+  date        DateTime
+  note        String?
 
   @@map("appointments")
-
 }

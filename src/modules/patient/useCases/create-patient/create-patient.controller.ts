@@ -24,7 +24,10 @@ export class CreatePatientController {
       // validação de schema
       validatorSchema(patientSchema, body);
 
-      const patient = await this.createPatientUseCase.execute(body);
+      const patient = await this.createPatientUseCase.execute({
+        ...body,
+        avatar: body.filename,
+      });
 
       return response.status(StatusCodes.CREATED).json(patient);
     } catch (error: any) {
