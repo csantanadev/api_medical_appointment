@@ -1,3 +1,4 @@
+import { DoctorWithUserDTO } from "../../../dto/doctor.dto";
 import { Doctor } from "../../../entities/doctor.entity";
 import { IDoctorRepository } from "../../doctor.repository";
 
@@ -17,7 +18,17 @@ export class DoctorMemoryRespository implements IDoctorRepository {
     return this.items.find((doctor) => doctor.userId === userId) || null;
   }
 
-  async findById(id: string): Promise<Doctor | null> {
-    return this.items.find((doctor) => doctor.id === id) || null;
+  async findById(id: string): Promise<DoctorWithUserDTO | null> {
+    //return this.items.find((doctor) => doctor.id === id) || null;
+    return {
+      id: "",
+      crm: "",
+      email: "",
+      specialityId: "",
+      userId: "",
+      user: {
+        name: "",
+      },
+    };
   }
 }

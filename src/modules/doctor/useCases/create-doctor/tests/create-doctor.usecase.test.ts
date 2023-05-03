@@ -3,7 +3,6 @@ import { Speciality } from "./../../../../speciality/entities/speciality.entity"
 import { UserMemoryRepository } from "./../../../../users/repositories/implementations/user.memory.repository";
 import { CreateDoctorUseCase } from "./../create-doctor.usecase";
 import { test, describe, expect, beforeAll } from "vitest";
-import { randomUUID } from "crypto";
 import { CreateDoctorRequest } from "../create-doctor.usecase";
 import { DoctorMemoryRespository } from "../../../repositories/implementations/in-memory/doctor-memory.repository";
 import { SpecialityMemoryRepository } from "../../../../speciality/repositories/implementations/speciality-memory.repository";

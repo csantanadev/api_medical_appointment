@@ -1,3 +1,4 @@
+import { PatientWithUserDTO } from "../../../dto/patient.dto";
 import { Patient } from "./../../../entities/patient.entity";
 import { IPatientRepository } from "./../../patient.repository";
 
@@ -13,8 +14,17 @@ export class PatientMemoryRespository implements IPatientRepository {
     return this.items.find((patient) => patient.document === document) || null;
   }
 
-  async findByUserId(userId: string): Promise<Patient | null> {
-    return this.items.find((patient) => patient.userId === userId) || null;
+  async findByUserId(userId: string): Promise<PatientWithUserDTO | null> {
+    //return this.items.find((patient) => patient.userId === userId) || null;
+    return {
+      id: "",
+      document: "",
+      email: "",
+      userId: "",
+      user: {
+        name: "",
+      },
+    };
   }
 
   async findById(id: string): Promise<Patient | null> {
