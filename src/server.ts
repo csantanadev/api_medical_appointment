@@ -1,26 +1,10 @@
 import "dotenv/config";
-import express, { Request, Response } from "express";
+import { app } from "./app";
 
-import swaggerUI from "swagger-ui-express";
-import swaggerDocument from "../swagger.json";
-import { routes } from "./routes";
+const port = process.env.PORT || 3000;
 
-// uncomment to enable cron job
-//import './infra/cron/notification-appointment-day.cron'
-
-const app = express();
-
-app.use(express.json());
-
-app.use(routes);
-
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.get("/", (request: Request, response: Response) => {
-  return response.send("ping");
-});
-
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
 });
 
 process.on("uncaughtException", (err) => {
