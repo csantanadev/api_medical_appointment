@@ -1,5 +1,6 @@
 import { createClient } from "redis";
 
+// ReturnType obtem o tipo de retorno de uma funcao
 export type RedisTypeClient = ReturnType<typeof createClient>;
 
 export class CreateConnectionRedis {
@@ -14,7 +15,7 @@ export class CreateConnectionRedis {
   }
 
   async getValue(key: string) {
-    await this.client.get(key);
+    return this.client.get(key);
   }
 
   private createClient() {

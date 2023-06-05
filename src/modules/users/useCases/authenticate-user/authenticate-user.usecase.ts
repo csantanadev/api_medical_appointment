@@ -60,7 +60,7 @@ export class AuthenticateUserUseCase {
 
     // salvando no redis
     const redisClient = new CreateConnectionRedis();
-    await redisClient.setValue(user.id, refreshToken);
+    await redisClient.setValue(user.id, refreshToken); 
 
     return {
       token: tokenGenerated,
