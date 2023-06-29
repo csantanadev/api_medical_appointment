@@ -5,6 +5,7 @@ import {
   notificationAppointmentWorker,
 } from "./notification-appointment.worker";
 
+//Fastq, in memory work queue.
 const queueAppointmentNotification: queueAsPromised<NotificationTask> =
   fastq.promise(notificationAppointmentWorker, 1);
 
